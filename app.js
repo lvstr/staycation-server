@@ -5,7 +5,9 @@ const path = require("path");
 const logger = require("morgan");
 const livereload = require("livereload");
 const connectLivereload = require("connect-livereload");
-
+const methodOverride = require("method-override");
+const session = require("express-session");
+const flash = require("connect-flash");
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
 const adminRouter = require("./routes/admin");
@@ -34,6 +36,16 @@ liveReloadServer.server.once("connection", () => {
   }, 100);
 });
 
+app.use(methodOverride("_method"));
+app.use(
+  session({
+    secret: "keyboard cat",
+    resave: false,
+    saveUninitialized: true,
+    cookie: { maxAge: 60000 },
+  })
+);
+app.use(flash());
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

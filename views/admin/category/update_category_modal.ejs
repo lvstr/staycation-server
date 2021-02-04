@@ -1,15 +1,15 @@
 <!-- Modal -->
 <div
   class="modal fade"
-  id="categoryModal"
+  id="updateCategory"
   tabindex="-1"
-  aria-labelledby="categoryModalLabel"
+  aria-labelledby="updateCategoryLabel"
   aria-hidden="true"
 >
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="categoryModalLabel">Add New Category</h5>
+        <h5 class="modal-title" id="updateCategoryLabel">Update Category</h5>
         <button
           type="button"
           class="close"
@@ -19,26 +19,25 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form action="/admin/category" method="POST">
+      <form action="/admin/category?_method=PUT" method="POST">
         <div class="modal-body">
           <div class="form-group">
             <label for="name">Name: </label>
             <input
               type="text"
-              class="form-control"
-              id="name"
+              class="form-control name"
               name="name"
               placeholder="Enter Category Name"
+              required
             />
           </div>
         </div>
         <div class="modal-footer">
+          <input type="hidden" class="id" name="id" />
           <button type="button" class="btn btn-secondary" data-dismiss="modal">
             Close
           </button>
-          <button type="submit" class="btn btn-primary">
-            Add New Category
-          </button>
+          <button type="submit" class="btn btn-primary">Update Category</button>
         </div>
       </form>
     </div>

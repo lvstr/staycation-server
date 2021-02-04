@@ -5,7 +5,7 @@
       type="button"
       class="btn btn-primary"
       data-toggle="modal"
-      data-target="#categoryModal"
+      data-target="#addCategoryModal"
     >
       Add New Category
     </button>
@@ -31,12 +31,25 @@
             <td><%= index + 1 %></td>
             <td><%= category[index].name %></td>
             <td>
-              <a href="#" class="btn btn-warning btn-circle btn-sm"
-                ><i class="fas fa-edit"></i
-              ></a>
-              <a href="#" class="btn btn-danger btn-circle btn-sm"
-                ><i class="fas fa-trash"></i
-              ></a>
+              <form
+                action="/admin/category/<%= category[index].id %>?_method=DELETE"
+                method="POST"
+              >
+                <a
+                  href="javascript:void()"
+                  class="btn btn-warning btn-circle btn-sm button-update"
+                  data-id="<%= category[index].id %>"
+                  data-name="<%= category[index].name %>"
+                  ><i class="fas fa-edit"></i
+                ></a>
+                <button
+                  type="submit"
+                  href="#"
+                  class="btn btn-danger btn-circle btn-sm"
+                >
+                  <i class="fas fa-trash"></i>
+                </button>
+              </form>
             </td>
           </tr>
           <% } %>
