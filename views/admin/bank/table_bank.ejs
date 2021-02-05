@@ -1,6 +1,14 @@
 <div class="card shadow mb-4">
   <div class="card-header py-3">
-    <h6 class="m-0 font-weight-bold text-primary">Bank Table</h6>
+    <!-- Button trigger modal -->
+    <button
+      type="button"
+      class="btn btn-primary"
+      data-toggle="modal"
+      data-target="#addBankModal"
+    >
+      Add New Bank
+    </button>
   </div>
   <div class="card-body">
     <div class="table-responsive">
@@ -10,15 +18,57 @@
         width="100%"
         cellspacing="0"
       >
-        <thead>
+        <thead class="align-items-center text-center">
           <tr>
             <th>No</th>
+            <th>Image</th>
             <th>Bank Name</th>
             <th>Nomor rekening</th>
             <th>Name</th>
             <th>Action</th>
           </tr>
         </thead>
+        <tbody class="align-items-center text-center">
+          <% for( let index = 0; index < bank.length; index++ ) { %>
+          <tr>
+            <td><%= index + 1 %></td>
+            <td>
+              <img
+                src="http://localhost:3000/<%= bank[index].imageUrl %>"
+                alt=""
+                height="70px"
+                width="70px"
+              />
+            </td>
+            <td><%= bank[index].nameBank %></td>
+            <td><%= bank[index].nomorRekening %></td>
+            <td><%= bank[index].name %></td>
+            <td>
+              <form
+                action="/admin/bank/<%= bank[index].id %>?_method=DELETE"
+                method="POST"
+              >
+                <a
+                  href="javascript:void()"
+                  class="btn btn-warning btn-circle btn-sm button-update"
+                  data-id="<%= bank[index].id %>"
+                  data-name="<%= bank[index].name %>"
+                  data-namebank="<%= bank[index].nameBank %>"
+                  data-nomorrekening="<%= bank[index].nomorRekening %>"
+                  ><i class="fas fa-edit"></i
+                ></a>
+                <button
+                  type="submit"
+                  href="#"
+                  class="btn btn-danger btn-circle btn-sm"
+                >
+                  <i class="fas fa-trash"></i>
+                </button>
+              </form>
+            </td>
+          </tr>
+          <% } %>
+        </tbody>
       </table>
     </div>
   </div>
