@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const adminController = require("../controllers/adminController");
-const { upload } = require("../middlewares/multer");
+const { upload, uploadMultiple } = require("../middlewares/multer");
 
 /* GET Dashboard Admin Page. */
 router.get("/dashboard", adminController.viewDashboard);
@@ -14,7 +14,14 @@ router.get("/bank", adminController.viewBank);
 router.post("/bank", upload, adminController.addBank);
 router.put("/bank", upload, adminController.updateBank);
 router.delete("/bank/:id", adminController.deleteBank);
+// enpoint Item
 router.get("/item", adminController.viewItem);
+router.post("/item", uploadMultiple, adminController.addItem);
+router.get("/item/show-image/:id", adminController.showImageItem);
+router.get("/item/:id", adminController.showUpdateItem);
+router.put("/item/:id", uploadMultiple, adminController.updateItem);
+router.delete("/item/:id/delete", adminController.deleteItem);
+// enpoint Booking
 router.get("/booking", adminController.viewBooking);
 
 module.exports = router;

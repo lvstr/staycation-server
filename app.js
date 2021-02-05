@@ -3,8 +3,6 @@ const express = require("express");
 const path = require("path");
 /* const */ cookieParser = require("cookie-parser");
 const logger = require("morgan");
-const livereload = require("livereload");
-const connectLivereload = require("connect-livereload");
 const methodOverride = require("method-override");
 const session = require("express-session");
 const flash = require("connect-flash");
@@ -25,16 +23,6 @@ const app = express();
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
-
-const liveReloadServer = livereload.createServer();
-liveReloadServer.watch(path.join(__dirname, "views"));
-app.use(connectLivereload());
-
-liveReloadServer.server.once("connection", () => {
-  setTimeout(() => {
-    liveReloadServer.refresh("/");
-  }, 100);
-});
 
 app.use(methodOverride("_method"));
 app.use(
