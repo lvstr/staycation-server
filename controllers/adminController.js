@@ -2,6 +2,7 @@ const Category = require("../models/Category.js");
 const Bank = require("../models/Bank.js");
 const Item = require("../models/Item.js");
 const Image = require("../models/Image.js");
+const Feature = require("../models/Feature.js");
 const fs = require("fs-extra");
 const path = require("path");
 
@@ -321,6 +322,7 @@ module.exports = {
           });
       }
       await item.remove();
+
       req.flash("alertMessage", "Success Delete Item");
       req.flash("alertStatus", "success");
       res.redirect("/admin/item");
@@ -328,6 +330,107 @@ module.exports = {
       req.flash("alertMessage", `${error.message}`);
       req.flash("alertStatus", "danger");
       res.redirect("/admin/item");
+    }
+  },
+
+  viewDetailItem: async (req, res) => {
+    const { itemId } = req.params;
+    try {
+      const feature = await Feature.find({ itemId: itemId });
+      const alertMessage = req.flash("alertMessage");
+      const alertStatus = req.flash("alertStatus");
+      const alert = { message: alertMessage, status: alertStatus };
+      res.render("admin/item/detail_item/view_item_detail", {
+        title: "Staycation | Detail Item",
+        alert,
+        itemId,
+        feature,
+      });
+    } catch (error) {
+      req.flash("alertMessage", `${error.message}`);
+      req.flash("alertStatus", "danger");
+      res.redirect("/admin/detail_item");
+    }
+  },
+
+  addDetailItem: async (req, res) => {
+    const { itemId, name, qty } = req.body;
+    try {
+      if (!req.file) {
+        req.flash("alertMessage", `Image not Found, ${error.message}`);
+        req.flash("alertStatus", "danger");
+        res.redirect(`/admin/item/detail_item/${itemId}`);
+      }
+      const feature = await Feature.create({
+        name,
+        qty,
+        itemId,
+        imageUrl: `images/${req.file.filename}`,
+      });
+
+      const item = await Item.findOne({ _id: itemId });
+      item.featureId.push({ _id: feature._id });
+      await item.save();
+      //console.log(req.file);
+      req.flash("alertMessage", "Success Add Feature");
+      req.flash("alertStatus", "success");
+      res.redirect(`/admin/item/detail_item/${itemId}`);
+    } catch (error) {
+      req.flash("alertMessage", `${error.message}`);
+      req.flash("alertStatus", "danger");
+      res.redirect(`/admin/item/detail_item/${itemId}`);
+    }
+  },
+
+  updateItemFeature: async (req, res) => {
+    const { id, name, qty, itemId } = req.body;
+    try {
+      const feature = await Feature.findOne({ _id: id });
+      if (req.file == undefined) {
+        feature.name = name;
+        feature.qty = qty;
+        await feature.save();
+        req.flash("alertMessage", "Success Update Feature");
+        req.flash("alertStatus", "success");
+        res.redirect(`/admin/item/detail_item/${itemId}`);
+      } else {
+        await fs.unlink(path.join(`public/${feature.imageUrl}`));
+        feature.name = name;
+        feature.qty = qty;
+        feature.imageUrl = `images/${req.file.filename}`;
+        await feature.save();
+        req.flash("alertMessage", "Success Update Feature");
+        req.flash("alertStatus", "success");
+        res.redirect(`/admin/item/detail_item/${itemId}`);
+      }
+    } catch (error) {
+      req.flash("alertMessage", `${error.message}`);
+      req.flash("alertStatus", "danger");
+      res.redirect(`/admin/item/detail_item/${itemId}`);
+    }
+  },
+
+  deleteItemFeature: async (req, res) => {
+    const { id, itemId } = req.params;
+    try {
+      const feature = await Feature.findOne({ _id: id });
+
+      const item = await Item.findOne({ _id: itemId }).populate("featureId");
+      for (let i = 0; i < item.featureId.length; i++) {
+        if (item.featureId[i]._id.toString() === feature._id.toString()) {
+          item.featureId.pull({ _id: feature._id });
+          await item.save();
+        }
+      }
+      await fs.unlink(path.join(`public/${feature.imageUrl}`));
+      await feature.delete();
+      req.flash("alertMessage", "Success Delete Feature");
+      req.flash("alertStatus", "success");
+      res.redirect(`/admin/item/detail_item/${itemId}`);
+    } catch (error) {
+      req.flash("alertMessage", `${error.message}`);
+      req.flash("alertStatus", "danger");
+      res.redirect(`/admin/item/detail_item/${itemId}`);
     }
   },
 
