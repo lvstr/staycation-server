@@ -11,7 +11,7 @@ const usersRouter = require("./routes/users");
 const adminRouter = require("./routes/admin");
 // Database
 const mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost:27017/bwa_mern", {
+mongoose.connect("mongodb://127.0.0.1:27017/db_staycation", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true,
@@ -30,7 +30,7 @@ app.use(
     secret: "keyboard cat",
     resave: false,
     saveUninitialized: true,
-    cookie: { maxAge: 60000 },
+    cookie: { maxAge: 600000000000 },
   })
 );
 app.use(flash());
