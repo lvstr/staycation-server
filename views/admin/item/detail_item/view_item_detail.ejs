@@ -20,7 +20,6 @@
           <li class="nav-item" role="presentation">
             <a
               class="nav-link active"
-              id="home-tab"
               data-toggle="tab"
               href="#show-feature"
               role="tab"
@@ -32,7 +31,6 @@
           <li class="nav-item" role="presentation">
             <a
               class="nav-link"
-              id="profile-tab"
               data-toggle="tab"
               href="#show-activity"
               role="tab"
@@ -96,8 +94,8 @@
   </div>
 </div>
 
-<%- include('show_modal_feature.ejs') %> <%- include('../../../partials/js.ejs')
-%>
+<%- include('show_modal_activity.ejs') %> <%- include('show_modal_feature.ejs')
+%> <%- include('../../../partials/js.ejs') %>
 <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
 <script>
   $(document).ready(function () {
@@ -113,5 +111,15 @@
     $(".id").val(id);
     $(".name").val(name);
     $(".qty").val(qty);
+  });
+
+  $("#dataTableActivity").on("click", ".button-update", function () {
+    let id = $(this).data("id");
+    let name = $(this).data("name");
+    let type = $(this).data("type");
+    $("#updateActivityModal").modal("show");
+    $(".id").val(id);
+    $(".name").val(name);
+    $(".type").val(type);
   });
 </script>

@@ -1,15 +1,17 @@
 <!-- Modal -->
 <div
   class="modal fade"
-  id="updateFeatureModal"
+  id="updateActivityModal"
   tabindex="-1"
-  aria-labelledby="updateFeatureModalLabel"
+  aria-labelledby="updateActivityModalLabel"
   aria-hidden="true"
 >
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="updateFeatureModalLabel">Update Feature</h5>
+        <h5 class="modal-title" id="updateActivityModalLabel">
+          Update Activity
+        </h5>
         <button
           type="button"
           class="close"
@@ -20,7 +22,7 @@
         </button>
       </div>
       <form
-        action="/admin/item/update/feature?_method=PUT"
+        action="/admin/item/update/activity?_method=PUT"
         method="POST"
         enctype="multipart/form-data"
       >
@@ -35,13 +37,13 @@
               placeholder="Enter Name"
               required
             />
-            <label for="qty">QTY: </label>
+            <label for="type">Type: </label>
             <input
-              type="number"
-              class="form-control qty"
-              id="qty"
-              name="qty"
-              placeholder="Enter qty"
+              type="text"
+              class="form-control type"
+              id="type"
+              name="type"
+              placeholder="Enter type"
               required
             />
             <label for="imageUrl">Image: </label>
@@ -59,7 +61,7 @@
           <button type="button" class="btn btn-secondary" data-dismiss="modal">
             Close
           </button>
-          <button type="submit" class="btn btn-primary">Update Feature</button>
+          <button type="submit" class="btn btn-primary">Update Activity</button>
         </div>
       </form>
     </div>
