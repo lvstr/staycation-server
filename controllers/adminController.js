@@ -64,11 +64,19 @@ module.exports = {
     res.redirect("/admin/signin");
   },
 
-  viewDashboard: (req, res) => {
-    res.render("admin/dashboard/view_dashboard", {
-      title: "Staycation | Dashboard",
-      user: req.session.user,
-    });
+  viewDashboard: async (req, res) => {
+    try {
+      const booking = await Booking.find();
+      const item = await Item.find();
+      const member = await Member.find();
+      res.render("admin/dashboard/view_dashboard", {
+        title: "Staycation | Dashboard",
+        user: req.session.user,
+        booking,
+        item,
+        member,
+      });
+    } catch (error) {}
   },
   viewCategory: async (req, res) => {
     try {
