@@ -39,5 +39,8 @@ router.put("/item/update/activity", upload, adminController.updateItemActivity);
 router.delete("/item/:itemId/activity/:id", adminController.deleteItemActivity);
 // enpoint Booking
 router.get("/booking", adminController.viewBooking);
+router.get("/booking/:id", adminController.viewDetailBooking);
+router.put("/booking/:id/confirm", adminController.actionConfirmation);
+router.put("/booking/:id/reject", adminController.actionRejection);
 
 module.exports = router;

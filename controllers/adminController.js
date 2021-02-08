@@ -5,6 +5,8 @@ const Image = require("../models/Image.js");
 const Feature = require("../models/Feature.js");
 const Activity = require("../models/Activity.js");
 const Users = require("../models/Users.js");
+const Booking = require("../models/Booking.js");
+const Member = require("../models/Member.js");
 const fs = require("fs-extra");
 const path = require("path");
 const bcrypt = require("bcryptjs");
@@ -577,10 +579,71 @@ module.exports = {
     }
   },
 
-  viewBooking: (req, res) => {
-    res.render("admin/booking/view_booking", {
-      title: "Staycation | Booking",
-      user: req.session.user,
-    });
+  viewBooking: async (req, res) => {
+    try {
+      const booking = await Booking.find()
+        .populate("memberId")
+        .populate("bankId");
+      console.log(booking);
+      res.render("admin/booking/view_booking", {
+        title: "Staycation | Booking",
+        user: req.session.user,
+        booking,
+      });
+    } catch (error) {
+      res.redirect("/admin/booking");
+    }
+  },
+
+  viewDetailBooking: async (req, res) => {
+    const { id } = req.params;
+    try {
+      const booking = await Booking.findOne({ _id: id })
+        .populate("memberId")
+        .populate("bankId");
+      const alertMessage = req.flash("alertMessage");
+      const alertStatus = req.flash("alertStatus");
+      const alert = { message: alertMessage, status: alertStatus };
+      res.render("admin/booking/view_detail_booking", {
+        title: "Staycation | Booking",
+        user: req.session.user,
+        booking,
+        alert,
+      });
+    } catch (error) {
+      res.redirect("/admin/booking");
+    }
+  },
+
+  actionConfirmation: async (req, res) => {
+    const { id } = req.params;
+    try {
+      const booking = await Booking.findOne({ _id: id });
+      booking.payments.status = "Accepted";
+      await booking.save();
+      req.flash("alertMessage", "Success Accept Booking Payment");
+      req.flash("alertStatus", "success");
+      res.redirect(`/admin/booking/${id}`);
+    } catch (error) {
+      req.flash("alertMessage", "Gagal Accept Booking Payment");
+      req.flash("alertStatus", "danger");
+      res.redirect(`/admin/booking/${id}`);
+    }
+  },
+
+  actionRejection: async (req, res) => {
+    const { id } = req.params;
+    try {
+      const booking = await Booking.findOne({ _id: id });
+      booking.payments.status = "Rejected";
+      await booking.save();
+      req.flash("alertMessage", "Success Reject Booking Payment");
+      req.flash("alertStatus", "success");
+      res.redirect(`/admin/booking/${id}`);
+    } catch (error) {
+      req.flash("alertMessage", "Gagal Reject Booking Payment");
+      req.flash("alertStatus", "danger");
+      res.redirect(`/admin/booking/${id}`);
+    }
   },
 };
