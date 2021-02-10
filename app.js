@@ -9,6 +9,7 @@ const flash = require("connect-flash");
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
 const adminRouter = require("./routes/admin");
+const apiRouter = require("./routes/api");
 // Database
 const mongoose = require("mongoose");
 mongoose.connect("mongodb://127.0.0.1:27017/db_staycation", {
@@ -47,6 +48,7 @@ app.use(
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/admin", adminRouter);
+app.use("/api/v1/member", apiRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
