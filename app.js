@@ -12,12 +12,15 @@ const adminRouter = require("./routes/admin");
 const apiRouter = require("./routes/api");
 // Database
 const mongoose = require("mongoose");
-mongoose.connect("mongodb://127.0.0.1:27017/db_staycation", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useCreateIndex: true,
-  useFindAndModify: false,
-});
+mongoose.connect(
+  "mongodb+srv://lvstr:k0ch3n22@staycation.uyxi5.mongodb.net/db_staycation?retryWrites=true&w=majority",
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+    useFindAndModify: false,
+  }
+);
 
 const app = express();
 
