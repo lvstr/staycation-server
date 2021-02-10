@@ -289,6 +289,7 @@ module.exports = {
         title: "Staycation | Image Item",
         alert,
         action: "show image",
+        user: req.session.user,
       });
     } catch (error) {
       req.flash("alertMessage", `${error.message}`);
