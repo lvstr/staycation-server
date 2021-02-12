@@ -25,6 +25,7 @@ mongoose.connect(
 
 const app = express();
 
+app.use(cors());
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
@@ -53,8 +54,6 @@ app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/admin", adminRouter);
 app.use("/api/v1/member", apiRouter);
-
-app.use(cors);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
