@@ -319,6 +319,7 @@ module.exports = {
         alert,
         category,
         action: "show edit",
+        user: req.session.user,
       });
     } catch (error) {
       req.flash("alertMessage", `${error.message}`);
